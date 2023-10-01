@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "tfl-to-mqtt",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "git@github.com:markormesher/tfl-to-mqtt.git",
   "license": "AGPL-3.0",
   "scripts": {
