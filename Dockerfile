@@ -1,5 +1,4 @@
 FROM node:20.6.1-bookworm AS builder
-RUN apt update && apt install -y --no-install-recommends python3 && apt clean
 
 WORKDIR /app
 
@@ -14,7 +13,6 @@ RUN yarn build
 # ---
 
 FROM node:20.6.1-bookworm
-RUN apt update && apt install -y --no-install-recommends python3 && apt clean
 
 WORKDIR /app
 
