@@ -19,7 +19,7 @@ Note: the TfL API is organised by mode and line (e.g. mode: tube, line: central)
 
 ## MQTT Topics
 
-Lines only have a single status _most_ of the time, but sometimes have more if there are multiple issues affecting them. Indexes below (`i`) start from zero.
+Lines only have a single status _most_ of the time, but sometimes have more if there are multiple issues affecting them. Indexes below (`i`) start from one.
 
 - `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/severity` - severity type for the `i`th status value of the given mode and line
 - `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/reason` - reason for the `i`th status value of the given mode and line (may be blank)

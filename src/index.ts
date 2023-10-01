@@ -21,10 +21,10 @@ function clearLineTopics(mode: string, line: string, keepFirst = 0): void {
   }
 
   for (let i = keepFirst; i < countPublished; ++i) {
-    mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${i}/severity`, "");
-    mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${i}/reason`, "");
-    mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${i}/disruption_category`, "");
-    mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${i}/disruption_description`, "");
+    mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${i + 1}/severity`, "");
+    mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${i + 1}/reason`, "");
+    mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${i + 1}/disruption_category`, "");
+    mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${i + 1}/disruption_description`, "");
   }
 }
 
@@ -75,17 +75,17 @@ async function doUpdate(): Promise<void> {
     let count = 0;
     while (count < lineStatuses.length) {
       const status = lineStatuses[count];
-      mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${count}/reason`, status.reason);
+      mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${count + 1}/reason`, status.reason);
       mqttWrapper.publish(
-        `state/modes/${mode}/lines/${line}/status_${count}/severity`,
+        `state/modes/${mode}/lines/${line}/status_${count + 1}/severity`,
         status.statusSeverityDescription,
       );
       mqttWrapper.publish(
-        `state/modes/${mode}/lines/${line}/status_${count}/disruption_category`,
+        `state/modes/${mode}/lines/${line}/status_${count + 1}/disruption_category`,
         status.disruption?.categoryDescription ?? "",
       );
       mqttWrapper.publish(
-        `state/modes/${mode}/lines/${line}/status_${count}/disruption_description`,
+        `state/modes/${mode}/lines/${line}/status_${count + 1}/disruption_description`,
         status.disruption?.description ?? "",
       );
       ++count;
