@@ -73,8 +73,8 @@ async function doUpdate(): Promise<void> {
     });
 
     let count = 0;
-    while (count < statusResponse.lineStatuses.length) {
-      const status = statusResponse.lineStatuses[count];
+    while (count < lineStatuses.length) {
+      const status = lineStatuses[count];
       mqttWrapper.publish(`state/modes/${mode}/lines/${line}/status_${count}/reason`, status.reason);
       mqttWrapper.publish(
         `state/modes/${mode}/lines/${line}/status_${count}/severity`,
