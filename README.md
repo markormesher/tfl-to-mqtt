@@ -19,10 +19,12 @@ Note: the TfL API is organised by mode and line (e.g. mode: tube, line: central)
 
 ## MQTT Topics
 
-- `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/reason` - string status reason for the `i`th status value of the given mode and line (may be blank)
-- `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/severity` - string severity type for the `i`th status value of the given mode and line
-- `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/disruption_category` - string disruption type for the `i`th status value of the given mode and line (may be blank)
-- `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/disruption_description` - string disruption description for the `i`th status value of the given mode and line (may be blank)
+Lines only have a single status _most_ of the time, but sometimes have more if there are multiple issues affecting them. Indexes below (`i`) start from zero.
+
+- `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/severity` - severity type for the `i`th status value of the given mode and line
+- `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/reason` - reason for the `i`th status value of the given mode and line (may be blank)
+- `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/disruption_category` - disruption type for the `i`th status value of the given mode and line (may be blank)
+- `${prefix}/state/modes/${mode}/lines/${line}/status_${i}/disruption_description` - disruption description for the `i`th status value of the given mode and line (may be blank)
 
 The topics below are published once at startup to provide info about the valid inputs to this tool and the possible outputs.
 
