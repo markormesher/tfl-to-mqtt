@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "name": "tfl-to-mqtt",
+  "version": "0.0.0",
+  "repository": "git@github.com:markormesher/tfl-to-mqtt.git",
+  "license": "AGPL-3.0",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "lint": "eslint --ext ts src",
+    "start": "node build/index.js"
+  },
+  "dependencies": {
+    "@markormesher/x-to-mqtt": "^0.1.6"
+  },
+  "devDependencies": {
+    "@dragonlabs/eslint-config": "^0.0.25",
+    "eslint": "^8.49.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  }
+}
