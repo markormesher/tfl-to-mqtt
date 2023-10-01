@@ -13,6 +13,9 @@ type LineStatusResponse = {
     statusSeverity: number;
     statusSeverityDescription: string;
     reason: string;
+    validityPeriods?: {
+      isNow: boolean;
+    }[];
     disruption?: {
       category: string;
       categoryDescription: string;

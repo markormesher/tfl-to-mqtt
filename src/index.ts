@@ -63,6 +63,15 @@ async function doUpdate(): Promise<void> {
       continue;
     }
 
+    const lineStatuses = statusResponse.lineStatuses.filter((status) => {
+      if (!status.validityPeriods || status.validityPeriods.length == 0) {
+        // no validity specified = currently valid
+        return true;
+      } else {
+        return status.validityPeriods.some((period) => period.isNow);
+      }
+    });
+
     let count = 0;
     while (count < statusResponse.lineStatuses.length) {
       const status = statusResponse.lineStatuses[count];
