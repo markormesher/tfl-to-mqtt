@@ -1,4 +1,4 @@
-FROM node:20.6.1-bookworm AS builder
+FROM node:20.6.1-alpine AS builder
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN yarn build
 
 # ---
 
-FROM node:20.6.1-bookworm
+FROM node:20.6.1-alpine
 
 WORKDIR /app
 
