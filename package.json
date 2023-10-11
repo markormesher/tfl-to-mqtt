@@ -13,7 +13,7 @@
     "@markormesher/x-to-mqtt": "^0.1.6"
   },
   "devDependencies": {
-    "@dragonlabs/eslint-config": "^0.0.25",
+    "@dragonlabs/eslint-config": "^1.0.0",
     "eslint": "^8.49.0",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2"
