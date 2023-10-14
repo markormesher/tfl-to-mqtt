@@ -5,7 +5,6 @@
 
 This project uses the Transport for London (TfL) API to publish line statuses and disruption details to MQTT. The API exposes other types of information too - PRs to this tool are welcome.
 
-
 ## Configuration
 
 :point_right: See this project's base library, [X to MQTT](https://github.com/markormesher/x-to-mqtt), for configuration reference.
