@@ -17,7 +17,7 @@ jobs:
             - yarn-v1
       - run:
           name: Install dependencies
-          command: yarn install
+          command: yarn install --immutable
       - save_cache:
           key: yarn-v1-{{ .Branch }}-{{ epoch }}
           paths:
@@ -35,6 +35,7 @@ jobs:
       - run:
           name: Lint
           command: |
+            yarn dedupe -c
             yarn lint
 
   build:
