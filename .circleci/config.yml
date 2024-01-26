@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/app
   docker:
-    - image: cimg/node:21.6.0
+    - image: cimg/node:21.6.1
   resource_class: small
 
 jobs:
