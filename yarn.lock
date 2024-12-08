@@ -99,11 +99,11 @@ __metadata:
   linkType: hard
 
 "@markormesher/x-to-mqtt@npm:^0.1.6":
-  version: 0.1.6
-  resolution: "@markormesher/x-to-mqtt@npm:0.1.6"
+  version: 0.1.7
+  resolution: "@markormesher/x-to-mqtt@npm:0.1.7"
   dependencies:
     mqtt: "npm:^5.0.5"
-  checksum: 0a438fb2ac228aece4527fc9501872f822d8cddc6c0abbbc44dd1ab47d11db3118d742c944b1cb85c2e8fa8aae4a7e1785cbdc734bce2682abae1b14b1200a95
+  checksum: 3eaaf601dd94f731e6bd73c475aac2e40faf2f05d5d49fbdc54991d922c93110c0a821dbb217c02c6157696e7dcc200cc7a79880f62eb510e97ca3f33da90033
   languageName: node
   linkType: hard
 
