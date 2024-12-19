@@ -13,7 +13,7 @@
     "@markormesher/x-to-mqtt": "^0.1.6"
   },
   "devDependencies": {
-    "@markormesher/eslint-config": "^0.0.4",
+    "@markormesher/eslint-config": "^0.1.0",
     "@types/node": "^20.8.10",
     "eslint": "^8.49.0",
     "prettier": "^3.0.3",
