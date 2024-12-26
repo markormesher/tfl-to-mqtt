@@ -1,85 +1,116 @@
-version: 2
+# This file is maintained by Tedium - manual edits will be overwritten!
 
-defaults: &defaults
-  working_directory: ~/app
-  docker:
-    - image: cimg/node:21.7.3
-  resource_class: small
-
+version: "2.1"
 jobs:
-  setup:
-    <<: *defaults
+  checkout:
+    docker:
+      - image: cimg/base:2024.12
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-v1-{{ .Branch }}
-            - yarn-v1
-      - run:
-          name: Install dependencies
-          command: yarn install --immutable
-      - save_cache:
-          key: yarn-v1-{{ .Branch }}-{{ epoch }}
-          paths:
-            - .yarn/cache
+      - checkout:
+          path: .
       - persist_to_workspace:
           root: .
           paths:
             - .
-
-  lint:
-    <<: *defaults
+  ci-all:
+    docker:
+      - image: cimg/base:2024.12
     steps:
       - attach_workspace:
           at: .
       - run:
-          name: Lint
-          command: |
-            yarn dedupe -c
-            yarn lint
-
-  build:
-    <<: *defaults
+          command: echo "Done"
+  fetch-task:
+    docker:
+      - image: ghcr.io/markormesher/task-fetcher:v0.4.1
     steps:
       - attach_workspace:
           at: .
       - run:
-          name: Build
-          command: |
-            yarn build
-
-  maybe-deploy:
-    <<: *defaults
+          command: cp /task .
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  imgbuild-imgpush:
+    docker:
+      - image: cimg/base:2024.12
     steps:
+      - attach_workspace:
+          at: .
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          command: |-
+            echo "${GHCR_PUBLISH_TOKEN}" | docker login ghcr.io -u markormesher --password-stdin
+            ./task imgbuild
+            ./task imgpush
+  imgrefs:
+    docker:
+      - image: docker.io/alpine/git:v2.47.1
+    steps:
       - attach_workspace:
           at: .
       - run:
-          name: Build Docker image
-          command: |
-            docker build . -t ghcr.io/markormesher/tfl-to-mqtt:$(git describe)
-            docker image ls
+          command: ./task imgrefs
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  lint-go:
+    docker:
+      - image: docker.io/golang:1.23.4
+    steps:
+      - attach_workspace:
+          at: .
       - run:
-          name: Maybe publish Docker image
-          command: |
-            # publish tagged commits only
-            if ! git describe --exact-match HEAD > /dev/null 2>&1; then echo "Not on tagged commit - nothing to do"; exit 0; fi
-            echo "${GHCR_PUBLISH_TOKEN}" | docker login ghcr.io -u markormesher --password-stdin
-            docker push ghcr.io/markormesher/tfl-to-mqtt:$(git describe)
-
+          command: ./task lint-go
 workflows:
   version: 2
   main:
     jobs:
-      - setup
-      - lint:
+      - checkout:
+          requires: []
+          filters:
+            tags:
+              only: /.*/
+      - fetch-task:
           requires:
-            - setup
-      - build:
+            - checkout
+          filters:
+            tags:
+              only: /.*/
+      - lint-go:
           requires:
-            - setup
-      - maybe-deploy:
+            - checkout
+            - fetch-task
+          filters:
+            tags:
+              only: /.*/
+      - imgrefs:
           requires:
-            - lint
-            - build
+            - checkout
+            - fetch-task
+            - lint-go
+          filters:
+            tags:
+              only: /.*/
+      - imgbuild-imgpush:
+          requires:
+            - checkout
+            - fetch-task
+            - imgrefs
+            - lint-go
+          filters:
+            tags:
+              only: /.*/
+      - ci-all:
+          requires:
+            - checkout
+            - fetch-task
+            - imgbuild-imgpush
+            - imgrefs
+            - lint-go
+          filters:
+            tags:
+              only: /.*/
