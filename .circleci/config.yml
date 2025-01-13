@@ -20,6 +20,20 @@ jobs:
           at: .
       - run:
           command: echo "Done"
+  deps-go:
+    docker:
+      - image: docker.io/golang:1.23.4
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          command: |-
+            export GOPATH=$(pwd)/.go
+            ./task deps-go
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./.go
   fetch-task:
     docker:
       - image: ghcr.io/markormesher/task-fetcher:v0.5.2
@@ -31,7 +45,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - .
+            - ./task
   imgbuild-imgpush:
     docker:
       - image: cimg/base:2025.01
@@ -56,7 +70,8 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - .
+            - ./.imgrefs
+            - ./**/.imgrefs
   lint-go:
     docker:
       - image: docker.io/golang:1.23.4
@@ -64,7 +79,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          command: ./task lint-go
+          command: |-
+            export GOPATH=$(pwd)/.go
+            ./task lint-go
 workflows:
   version: 2
   main:
@@ -80,18 +97,25 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - lint-go:
+      - imgrefs:
           requires:
             - checkout
             - fetch-task
           filters:
             tags:
               only: /.*/
-      - imgrefs:
+      - deps-go:
           requires:
             - checkout
             - fetch-task
-            - lint-go
+          filters:
+            tags:
+              only: /.*/
+      - lint-go:
+          requires:
+            - checkout
+            - deps-go
+            - fetch-task
           filters:
             tags:
               only: /.*/
@@ -106,8 +130,7 @@ workflows:
               only: /.*/
       - ci-all:
           requires:
-            - checkout
-            - fetch-task
+            - deps-go
             - imgbuild-imgpush
             - imgrefs
             - lint-go
