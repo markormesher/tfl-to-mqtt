@@ -36,9 +36,9 @@ func (w *MqttClientWrapper) publish(topic string, payload any) {
 	}
 
 	var realPayload string
-	switch payload.(type) {
+	switch payload := payload.(type) {
 	case string:
-		realPayload = payload.(string)
+		realPayload = payload
 
 	default:
 		jsonString, err := json.Marshal(payload)
