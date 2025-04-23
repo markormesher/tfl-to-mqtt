@@ -33,7 +33,7 @@ func getSettings() (Settings, error) {
 	}
 	updateInterval, err := strconv.Atoi(updateIntervalStr)
 	if err != nil {
-		return Settings{}, fmt.Errorf("Could not parse update interval as an integer: %w", err)
+		return Settings{}, fmt.Errorf("could not parse update interval as an integer: %w", err)
 	}
 
 	tflAppKey := os.Getenv("TFL_APP_KEY")
