@@ -1,4 +1,3 @@
-[![CircleCI](https://img.shields.io/circleci/build/github/markormesher/tfl-to-mqtt)](https://app.circleci.com/pipelines/github/markormesher/tfl-to-mqtt)
 [![Releases on GHCR](https://img.shields.io/badge/releases-ghcr.io-green)](https://ghcr.io/markormesher/tfl-to-mqtt)
 
 # TfL to MQTT
